@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+.zoom-effect {
+  transition: transform 5s ease;
+}
+.zoom-effect:hover {
+  transform: scale(1.05);
+}
+
+.animate-fadeIn {
+  animation: fadeIn 2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
