@@ -1,20 +1,65 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { FaEnvelope, FaLock } from 'react-icons/fa';
 
 const LoginForm = ({ onClose }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-    }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // TODO: Add login logic
+    alert(`Logging in as ${email}`);
+    onClose();
+  };
 
-    return (
-        <form onSubmit={handleSubmit} className='space-y-4'>
-            <input type="email" placeholder='Email' className='w-full border px-3 py-2 rounded-xl' value={email} onChange={(e)=> setEmail(e.target.value)} required />
-            <input type="password" placeholder='Password' className='w-full border px-3 py-2 rounded-xl' value={password} onChange={(e)=> setPassword(e.target.value)} required />
-            <button type="submit" className='w-full bg-green-700 text-white py-2 rounded-xl hover:bg-lime-700'>Login</button>
-        </form>
-    )
-}
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-6 px-2"
+    >
+      <h2 className="text-2xl font-bold text-start text-green-800 mb-2">Welcome Back</h2>
 
-export default LoginForm
+      {/* Email Field */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+        <div className="flex items-center border rounded-lg px-3 py-2 shadow-sm focus-within:ring-2 focus-within:ring-lime-500">
+          <FaEnvelope className="text-gray-400 mr-2" />
+          <input
+            type="email"
+            placeholder="you@example.com"
+            className="w-full outline-none bg-transparent"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+      </div>
+
+      {/* Password Field */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+        <div className="flex items-center border rounded-lg px-3 py-2 shadow-sm focus-within:ring-2 focus-within:ring-lime-500">
+          <FaLock className="text-gray-400 mr-2" />
+          <input
+            type="password"
+            placeholder="••••••••"
+            className="w-full outline-none bg-transparent"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+      </div>
+
+      {/* Submit Button */}
+      <button
+        type="submit"
+        className="w-full bg-gradient-to-r from-green-700 to-lime-600 hover:from-lime-600 hover:to-green-700 text-white font-semibold py-2 rounded-lg transition-all duration-300 shadow-md"
+      >
+        Login
+      </button>
+    </form>
+  );
+};
+
+export default LoginForm;

@@ -11,7 +11,7 @@ import mainBckg4 from '../assets/images/mainBckg3.jpg';
 
 import Modal from "../components/Modal";
 import LoginForm from '../components/LoginForm';
- import RegisterForm from '../components/RegisterForm'; 
+import RegisterForm from '../components/RegisterForm'; 
 
 const fadeIn = (delay = 0) => ({
   hidden: { opacity: 0, y: 30 },
@@ -36,7 +36,7 @@ const Navbar = ({ setShowLoginModal }) => {
         navigate('/joinus');
         break;
       case 'Login':
-        setShowLoginModal(true);
+        setShowLoginModal(true); // ⬅️ Show login modal instead of navigating
         break;
       default:
         break;
@@ -194,15 +194,17 @@ const Index = () => {
       <HeroSection setShowRegisterModal={setShowRegisterModal} />
       <HowItWorks />
       <Footer />
-
+      {(showLoginModal || showRegisterModal) && (
+      <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"></div>
+    )}
       {showLoginModal && (
-        <Modal title="Login" onClose={() => setShowLoginModal(false)}>
+        <Modal onClose={() => setShowLoginModal(false)}>
           <LoginForm onClose={() => setShowLoginModal(false)} />
         </Modal>
       )}
 
       {showRegisterModal && (
-        <Modal title="Register" onClose={() => setShowRegisterModal(false)}>
+        <Modal onClose={() => setShowRegisterModal(false)}>
           <RegisterForm onClose={() => setShowRegisterModal(false)} />
         </Modal>
       )}
