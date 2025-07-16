@@ -1,21 +1,18 @@
+const express = require('express');
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const cors = require('cors');
+const authRoutes = require('./routes/authRoutes');
 
-const userSchema = new mongoose.Schema({
-    name: {type: String, required:true},
-    email: {type:String, required:true, unique: true},
-    password: {type:String, required: true},
-});
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-userSchema.pre('save',async function(next){
-    if(!this.isModified('password'))
-        return next();
-    this.password = await bcrypt.hash(this.password, 10);
-    next();
-});
+app.use('/api/auth', authRoutes);
 
-userSchema.methods.matchPassword = function(enteredPassword) {
-    return bcrypt.compare(enteredPassword, this.password);
-};
-
-module.exports = mongoose.model('User', userSchema);
+mongoose.connect()
+.then(()=>{
+    app.listen(5000, () =>{
+        console.log('Server running on port 5000.');
+    });
+})
+.catch((err)=> console.error('Database connection failed:', err));

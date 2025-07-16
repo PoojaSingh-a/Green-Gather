@@ -48,7 +48,6 @@ const RegisterForm = ({ onClose }) => {
     { value: 'Puducherry', label: 'Puducherry' },
   ];
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     // TODO: Add register logic here

@@ -118,7 +118,7 @@ const JoinACampaign = () => {
           </p>
           <button className=" mt-7 py-3 px-5 text-white font-semibold border-white border-2 rounded-full hover:bg-white hover:text-black hover:font-semibold ">
             Create a Campaign
-          </button>
+          </button>cd
         </motion.div>
         {showScrollHint && (
           <motion.div

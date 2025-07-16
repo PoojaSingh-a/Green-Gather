@@ -10,7 +10,7 @@ const Modal = ({title, onClose, children}) => {
         >
             &times;
         </button>
-        <h2 className='text-3xl font-mono mb-4 text-center mb-7'>{title}</h2>
+        <h2 className='text-3xl font-mono text-center mb-7'>{title}</h2>
         {children}
       </div>
     </div>

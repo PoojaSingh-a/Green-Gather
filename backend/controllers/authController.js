@@ -36,11 +36,3 @@ exports.login = async(req,res) => {
     }
 }
 
-const authController = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
-export default authController;
