@@ -5,11 +5,36 @@ const LoginForm = ({ onClose }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    // TODO: Add login logic
-    alert(`Logging in as ${email}`);
-    onClose();
+    setLoading(true);
+    setErrorMsg('');
+    try{
+      const response = await fetch('http://localhost:5000/api/auth/login',{
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({email, password })
+      });
+      const data = await response.json();
+      if(!response.ok){
+        setErrorMsg(data.msg || 'Login failed');
+        seetLoading(false);
+        return;
+      }
+
+      localStorage.setItem('token', data.token);
+      alert(`Welcome back, ${data.user.name}`);
+      onClose();
+    }
+    catch(error){
+      console.error('Login error: ',error);
+      setErrorMsg('something went wrong.');
+    }
+    finally{
+      setLoading(false);
+    }
   };
 
   return (

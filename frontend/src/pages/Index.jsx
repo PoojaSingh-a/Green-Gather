@@ -188,6 +188,16 @@ const Index = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
 
+ /* useEffect(() => {
+    if (showRegisterModal || showLoginModal) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
+    // Clean up just in case
+    return () => document.body.classList.remove('overflow-hidden');
+  }, [showRegisterModal, showLoginModal]);*/
+
   return (
     <div className="font-sans text-gray-900 bg-gradient-to-br from-lime-50 via-green-100 to-sky-100 min-h-screen overflow-x-hidden">
       <Navbar setShowLoginModal={setShowLoginModal} />
