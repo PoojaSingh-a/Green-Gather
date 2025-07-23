@@ -3,6 +3,9 @@ import { FiMapPin } from 'react-icons/fi';
 import { FaHandsHelping, FaStar, FaLeaf } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 
 import mainBckg1 from '../assets/images/mainBckg.jpg';
 import mainBckg2 from '../assets/images/mainBckg1.jpg';
@@ -11,37 +14,35 @@ import mainBckg4 from '../assets/images/mainBckg3.jpg';
 
 import Modal from "../components/Modal";
 import LoginForm from '../components/LoginForm';
-import RegisterForm from '../components/RegisterForm'; 
+import RegisterForm from '../components/RegisterForm';
 
 const fadeIn = (delay = 0) => ({
   hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.3, delay } },
 });
 
-const Navbar = ({ setShowLoginModal }) => {
+const Navbar = ({ setShowLoginModal, isLoggedIn }) => {
   const navigate = useNavigate();
 
   const handleNavigation = (item) => {
     switch (item) {
-      case 'Home':
-        navigate('/');
-        break;
-      case 'About':
-        navigate('/about');
-        break;
-      case 'Campaigns':
-        navigate('/campaigns');
-        break;
-      case 'Join Us':
-        navigate('/joinus');
-        break;
-      case 'Login':
-        setShowLoginModal(true); // ⬅️ Show login modal instead of navigating
-        break;
-      default:
-        break;
+      case 'Home': navigate('/'); break;
+      case 'About': navigate('/about'); break;
+      case 'Campaigns': navigate('/campaigns'); break;
+      case 'Join Us': navigate('/joinus'); break;
+      case 'Login': setShowLoginModal(true); break;
+      case 'Logout' : callLogout(); break;
+      default: break;
     }
   };
+
+  const menuItems = ['Home', 'About', 'Campaigns', 'Join Us'];
+  if (!isLoggedIn) {
+    menuItems.push('Login');
+  } else {
+    menuItems.push('Logout');
+  }
+
 
   return (
     <nav className="flex justify-between items-center px-8 md:px-16 py-2 bg-transparent text-white fixed top-0 w-full z-50">
@@ -50,7 +51,7 @@ const Navbar = ({ setShowLoginModal }) => {
         <h1 className="text-3xl font-bold tracking-wide">GreenSpark</h1>
       </div>
       <ul className="flex gap-6 text-base md:text-md font-medium">
-        {['Home', 'About', 'Campaigns', 'Join Us', 'Login'].map((item, index) => (
+        {menuItems.map((item, index) => (
           <motion.li
             key={item}
             className="hover:text-lime-300 transition-colors duration-200 cursor-pointer"
@@ -67,7 +68,7 @@ const Navbar = ({ setShowLoginModal }) => {
   );
 };
 
-const HeroSection = ({ setShowRegisterModal }) => {
+const HeroSection = ({ setShowRegisterModal, isLoggedIn }) => {
   const images = [mainBckg1, mainBckg2, mainBckg3, mainBckg4];
   const [currentIndex, setCurrentIndex] = useState(0);
   const navigate = useNavigate();
@@ -113,7 +114,7 @@ const HeroSection = ({ setShowRegisterModal }) => {
           animate="visible"
         >
           <Button onClick={() => navigate('/joinacampaign')} text="Join a Campaign" gradient />
-          <Button onClick={() => setShowRegisterModal(true)} text="Get Started" />
+          {!isLoggedIn && <Button onClick={() => setShowRegisterModal(true)} text="Get Started" />}
         </motion.div>
       </div>
     </section>
@@ -123,11 +124,10 @@ const HeroSection = ({ setShowRegisterModal }) => {
 const Button = ({ text, gradient, onClick }) => (
   <button
     onClick={onClick}
-    className={`relative overflow-hidden group rounded-full text-white px-8 py-3 shadow-xl text-base font-semibold transition-all duration-300 ease-in-out ${
-      gradient
+    className={`relative overflow-hidden group rounded-full text-white px-8 py-3 shadow-xl text-base font-semibold transition-all duration-300 ease-in-out ${gradient
         ? 'bg-gradient-to-r from-green-700 to-lime-600 hover:from-lime-600 hover:to-green-700'
         : 'border-2 border-white hover:bg-white hover:text-green-800'
-    }`}
+      }`}
   >
     <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition" />
     {text}
@@ -187,35 +187,63 @@ const Footer = () => (
 const Index = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
- /* useEffect(() => {
-    if (showRegisterModal || showLoginModal) {
-      document.body.classList.add('overflow-hidden');
-    } else {
-      document.body.classList.remove('overflow-hidden');
-    }
-    // Clean up just in case
-    return () => document.body.classList.remove('overflow-hidden');
-  }, [showRegisterModal, showLoginModal]);*/
+  useEffect(() => {
+  axios.get('http://localhost:5000/api/auth/check-auth',{withCredentials:true})
+  .then((res) => {
+    console.log('User is already logged in:', res.data.userId);
+    setIsLoggedIn(true);
+  })
+  .catch(()=>{
+    setIsLoggedIn(false);
+  });
+},[]);
+
+  const handleRegisterSuccess = () => {
+    toast.success('You may login now!', {
+      position: 'top-center',
+      autoClose: 3000,
+      hideProgressBar: false,
+      theme: 'colored',
+    });
+    setShowRegisterModal(false);
+  };
+
+  const handleLoginSuccess = () => {
+    /*toast.success('Login successful!', {
+      position: 'top-center',
+      autoClose: 2000,
+      hideProgressBar: false,
+      theme: 'colored',
+    });*/
+    setIsLoggedIn(true);
+    setShowLoginModal(false);
+  };
+
+  
 
   return (
     <div className="font-sans text-gray-900 bg-gradient-to-br from-lime-50 via-green-100 to-sky-100 min-h-screen overflow-x-hidden">
-      <Navbar setShowLoginModal={setShowLoginModal} />
-      <HeroSection setShowRegisterModal={setShowRegisterModal} />
+      <Navbar setShowLoginModal={setShowLoginModal} isLoggedIn={isLoggedIn} />
+      <HeroSection setShowRegisterModal={setShowRegisterModal} isLoggedIn={isLoggedIn} />
       <HowItWorks />
       <Footer />
+      <ToastContainer />
+
       {(showLoginModal || showRegisterModal) && (
-      <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"></div>
-    )}
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"></div>
+      )}
+
       {showLoginModal && (
         <Modal onClose={() => setShowLoginModal(false)}>
-          <LoginForm onClose={() => setShowLoginModal(false)} />
+          <LoginForm onClose={() => setShowLoginModal(false)} onLoginSuccess={handleLoginSuccess} />
         </Modal>
       )}
 
       {showRegisterModal && (
         <Modal onClose={() => setShowRegisterModal(false)}>
-          <RegisterForm onClose={() => setShowRegisterModal(false)} />
+          <RegisterForm onClose={() => setShowRegisterModal(false)} onRegisterSuccess={handleRegisterSuccess} />
         </Modal>
       )}
     </div>
