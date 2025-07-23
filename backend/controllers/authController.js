@@ -1,7 +1,9 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
-process.env.JWT_SECRET = "myverysecuresecretkey";
+
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const generateToken = (userId) => {
   return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: "7d" });
@@ -36,8 +38,8 @@ exports.login = async (req, res) => {
     const token = generateToken(user._id);
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "Lax", // or 'Strict', but camelCase!
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 

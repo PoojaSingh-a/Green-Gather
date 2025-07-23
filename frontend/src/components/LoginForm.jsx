@@ -10,16 +10,16 @@ const LoginForm = ({ onClose, onLoginSuccess }) => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError('');
+    setError(''); // Clear previous errors
     try {
       const res = await axios.post(
         'http://localhost:5000/api/auth/login',
         { email, password },
         { withCredentials: true }
       );
-
+      const loggedInUserName = res.data.user.name; 
       if (res.status === 200) {
-        toast.success(
+        /*toast.success(
           <div>
             <strong>Welcome back!</strong>
             <div>You've successfully logged in.</div>
@@ -31,10 +31,10 @@ const LoginForm = ({ onClose, onLoginSuccess }) => {
             draggable: true,
             theme: 'colored',
           }
-        );
+        );*/
 
-        // Trigger parent update
-        onLoginSuccess();
+        // Trigger parent update, passing the username
+        onLoginSuccess(loggedInUserName); // <--- Pass the extracted username here
 
         // Close modal after short delay
         setTimeout(() => {
@@ -42,8 +42,9 @@ const LoginForm = ({ onClose, onLoginSuccess }) => {
         }, 1500);
       }
     } catch (err) {
-      setError(err.response?.data?.msg || 'Login failed');
-      toast.error(`${err.response?.data?.msg || 'Login failed'}`, {
+      console.error('Login error:', err.response?.data || err.message); // Log full error for debugging
+      setError(err.response?.data?.msg || 'Login failed. Please try again.'); // More user-friendly error
+      toast.error(`${err.response?.data?.msg || 'Login failed. Please check your credentials.'}`, {
         position: 'top-right',
         autoClose: 3000,
         pauseOnHover: true,
@@ -58,10 +59,11 @@ const LoginForm = ({ onClose, onLoginSuccess }) => {
       <h2 className="text-2xl font-bold text-start text-green-800 mb-2">Welcome Back</h2>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
         <div className="flex items-center border rounded-lg px-3 py-2 shadow-sm">
           <FaEnvelope className="text-gray-400 mr-2" />
           <input
+            id="email" // Added id for better accessibility
             type="email"
             placeholder="you@example.com"
             className="w-full outline-none bg-transparent"
@@ -73,10 +75,11 @@ const LoginForm = ({ onClose, onLoginSuccess }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+        <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Password</label>
         <div className="flex items-center border rounded-lg px-3 py-2 shadow-sm">
           <FaLock className="text-gray-400 mr-2" />
           <input
+            id="password" // Added id for better accessibility
             type="password"
             placeholder="••••••••"
             className="w-full outline-none bg-transparent"

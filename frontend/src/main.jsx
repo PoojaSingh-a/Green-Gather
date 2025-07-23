@@ -1,13 +1,18 @@
-import React from 'react'
-import {ClerkProvider} from '@clerk/clerk-react';
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App.jsx';
+import './index.css';
+import { BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from './context/authContext.jsx';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <ClerkProvider publishableKey='pk_test_bW9kZXJuLWFzcC05NC5jbGVyay5hY2NvdW50cy5kZXYk'>
+const root = document.getElementById('root');
+
+ReactDOM.createRoot(root).render(
   <React.StrictMode>
-    <App />
+    <AuthProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </AuthProvider>
   </React.StrictMode>
-  </ClerkProvider>
-)
+);
