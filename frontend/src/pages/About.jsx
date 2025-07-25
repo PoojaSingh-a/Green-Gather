@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaLeaf } from 'react-icons/fa';
 import bgImage from '../assets/images/mainBckg1.jpg';
-
 import {
     Leaf,
     Target,
@@ -13,14 +12,16 @@ import {
     TreeDeciduous,
     Globe,
 } from 'lucide-react';
+import { useAuth } from '../context/authContext.jsx';
 
 const fadeIn = (delay = 0) => ({
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay } },
 });
 
-const About = () => {
+const About = ({ setShowLoginModal }) => {
     const navigate = useNavigate();
+    const { isLoggedIn, logout } = useAuth();
 
     const handleNavigation = (item) => {
         switch (item) {
@@ -37,12 +38,28 @@ const About = () => {
                 navigate('/joinus');
                 break;
             case 'Login':
-                navigate('/login');
+                setShowLoginModal(true); // Open login modal
+                break;
+            case 'logout':
+                logout();
                 break;
             default:
                 break;
         }
     };
+
+    const menuItems = [
+        { label: 'Home', path: '/' },
+        { label: 'About', path: '/about' },
+        { label: 'Campaigns', path: '/campaigns' },
+        { label: 'Join Us', path: '/joinacampaign' }, // Correct path for this page
+    ];
+
+    if (!isLoggedIn) {
+        menuItems.push({ label: 'Login', path: '#' }); // Path # or handle in handleNavigation
+    } else {
+        menuItems.push({ label: 'Logout', path: '#' }); // Path # or handle in handleNavigation
+    }
 
     return (
         <>
@@ -56,18 +73,19 @@ const About = () => {
                     <h1 className="text-3xl font-bold tracking-wide">GreenSpark</h1>
                 </div>
                 <ul className="flex gap-6 text-base md:text-md font-medium">
-                    {['Home', 'About', 'Campaigns', 'Join Us', 'Login'].map((item, index) => (
-                        <motion.li
-                            key={item}
-                            className="hover:text-lime-300 transition-colors duration-200 cursor-pointer"
-                            variants={fadeIn(index * 0.1)}
-                            initial="hidden"
-                            animate="visible"
-                            onClick={() => handleNavigation(item)}
-                        >
-                            {item}
-                        </motion.li>
-                    ))}
+                    {menuItems.map((item, index) => (
+                              <motion.li
+                                key={item.label}
+                                className="hover:text-lime-300 transition-colors duration-200 cursor-pointer"
+                                variants={fadeIn(index * 0.1)}
+                                initial="hidden"
+                                animate="visible"
+                                onClick={() => handleNavigation(item.label)} // Pass item.label to handleNavigation
+                              >
+                                {/* If it's Login/Logout, handleNavigation will manage the action, otherwise use Link */}
+                                {item.path === '#' ? item.label : <Link to={item.path}>{item.label}</Link>}
+                              </motion.li>
+                            ))}
                 </ul>
             </nav>
 

@@ -213,7 +213,7 @@ const Index = () => {
 
   const handleRegisterSuccess = () => {
     toast.success('You may login now!', {
-      position: 'top-center',
+      position: 'top-right',
       autoClose: 3000,
       hideProgressBar: false,
       theme: 'colored',
@@ -225,7 +225,7 @@ const Index = () => {
     login(loggedInUserName); // <--- Use the login function from AuthContext to update global state
     setShowLoginModal(false);
     toast.success('Logged in successfully!', { // Add a success toast for login
-      position: 'top-center',
+      position: 'top-right',
       autoClose: 3000,
       hideProgressBar: false,
       theme: 'colored',
