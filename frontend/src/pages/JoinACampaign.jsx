@@ -5,11 +5,9 @@ import { FaLeaf } from 'react-icons/fa';
 import { IoIosArrowDown } from 'react-icons/io';
 import mainBckg1 from '../assets/images/mainBckg.jpg';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/authContext.jsx'; // Import useAuth
-import { toast } from 'react-toastify'; // Import toast for messages
+import { useAuth } from '../context/authContext.jsx'; 
+import { toast } from 'react-toastify'; 
 
-// --- Reusable Navbar Component (Consider moving this to components/Navbar.jsx) ---
-// This Navbar is designed to use the AuthContext directly, making it independent of parent props for auth state.
 const Navbar = ({ setShowLoginModal }) => {
   const navigate = useNavigate();
   const { isLoggedIn, logout } = useAuth();
@@ -19,25 +17,21 @@ const Navbar = ({ setShowLoginModal }) => {
       case 'Home': navigate('/'); break;
       case 'About': navigate('/about'); break;
       case 'Campaigns': navigate('/campaigns'); break;
-      case 'Join Us': navigate('/joinus'); break; // Adjust path if this page is /joinacampaign
-      case 'Login': setShowLoginModal(true); break; // Open the login modal
-      case 'Logout': logout(); break; // Use the logout function from AuthContext
+      case 'Login': setShowLoginModal(true); break; 
+      case 'Logout': logout(); break; 
       default: break;
     }
   };
-
   const menuItems = [
     { label: 'Home', path: '/' },
     { label: 'About', path: '/about' },
     { label: 'Campaigns', path: '/campaigns' },
-    { label: 'Join Us', path: '/joinacampaign' }, // Correct path for this page
   ];
 
-  // Dynamically add Login or Logout based on auth status
   if (!isLoggedIn) {
-    menuItems.push({ label: 'Login', path: '#' }); // Path # or handle in handleNavigation
+    menuItems.push({ label: 'Login', path: '#' }); 
   } else {
-    menuItems.push({ label: 'Logout', path: '#' }); // Path # or handle in handleNavigation
+    menuItems.push({ label: 'Logout', path: '#' }); 
   }
 
   const fadeIn = (delay = 0) => ({
@@ -59,9 +53,8 @@ const Navbar = ({ setShowLoginModal }) => {
             variants={fadeIn(index * 0.1)}
             initial="hidden"
             animate="visible"
-            onClick={() => handleNavigation(item.label)} // Pass item.label to handleNavigation
+            onClick={() => handleNavigation(item.label)} 
           >
-            {/* If it's Login/Logout, handleNavigation will manage the action, otherwise use Link */}
             {item.path === '#' ? item.label : <Link to={item.path}>{item.label}</Link>}
           </motion.li>
         ))}
@@ -70,13 +63,11 @@ const Navbar = ({ setShowLoginModal }) => {
   );
 };
 
-// --- FadeIn animation (kept as is) ---
 const fadeIn = (delay = 0) => ({
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay } },
 });
 
-// --- JoinACampaign Component ---
 const JoinACampaign = () => {
   const [campaigns, setCampaigns] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -85,64 +76,35 @@ const JoinACampaign = () => {
   const [showScrollHint, setShowScrollHint] = useState(true);
   const campaignsRef = useRef(null);
   const navigate = useNavigate();
-
-  // Add state for showing login modal (if you want it on this page)
   const [showLoginModal, setShowLoginModal] = useState(false);
-  // If you decide to add login/register forms here, you'll need these imports
-  // import Modal from "../components/Modal";
-  // import LoginForm from '../components/LoginForm';
-  // import RegisterForm from '../components/RegisterForm';
-  // const { login } = useAuth(); // If you use handleLoginSuccess here
-
-  // const handleLoginSuccess = (loggedInUserName) => {
-  //   login(loggedInUserName);
-  //   setShowLoginModal(false);
-  //   toast.success('Logged in successfully!', { position: 'top-center', autoClose: 3000, theme: 'colored' });
-  // };
-
-  // const handleRegisterSuccess = () => {
-  //   toast.success('You may login now!', { position: 'top-center', autoClose: 3000, theme: 'colored' });
-  //   setShowRegisterModal(false); // assuming you would have a showRegisterModal state
-  // };
-
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScroll = window.scrollY;
-      // Show Navbar if scrolling up, or if at the very top
       setShowNav(currentScroll < lastScrollY || currentScroll < 100);
       setLastScrollY(currentScroll);
-      // Show scroll hint if still within the top half of the viewport
       setShowScrollHint(currentScroll <= window.innerHeight / 2);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
 
   useEffect(() => {
-    // Call your own backend proxy endpoint for Ticketmaster events
-    // Ensure your backend's /api/ticketmaster/events endpoint is correct
     const backendApiUrl = `http://localhost:5000/api/ticketmaster/events?keyword=environment&sort=date,asc`;
-
     const fetchCampaigns = async () => {
       setLoading(true); // Set loading to true when starting fetch
       try {
         const response = await axios.get(backendApiUrl);
         const events = response.data._embedded?.events || [];
-
-        // Filter events that contain 'environment' or 'nature' in their name or classifications
         const filtered = events.filter((event) =>
           event.name?.toLowerCase().includes("environment") ||
           event.name?.toLowerCase().includes("nature") ||
-          // More robust filtering: check classifications like segment or genre names
           event.classifications?.some(c =>
             c.segment?.name?.toLowerCase().includes("nature") ||
             c.genre?.name?.toLowerCase().includes("environment") ||
             c.subGenre?.name?.toLowerCase().includes("environmental")
           )
         );
-
         setCampaigns(filtered);
       } catch (error) {
         console.error("Error fetching events from backend proxy:", error.message);
@@ -161,17 +123,14 @@ const JoinACampaign = () => {
         setLoading(false); // Set loading to false regardless of success or failure
       }
     };
-
     fetchCampaigns();
-    // Empty dependency array ensures this runs only once on component mount
   }, []);
-
 
   const handleScrollDown = () => {
     if (campaignsRef.current) {
       const topOffset = campaignsRef.current.offsetTop;
       window.scrollTo({
-        top: topOffset - 40, // Adjust offset as needed for Navbar
+        top: topOffset - 10, // Adjust offset as needed for Navbar
         behavior: 'smooth',
       });
     }
@@ -179,9 +138,7 @@ const JoinACampaign = () => {
 
   return (
     <>
-      {/* Navbar - Pass setShowLoginModal if you intend to show the login modal from this page */}
       <Navbar setShowLoginModal={setShowLoginModal} />
-
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center px-6 bg-gradient-to-r from-lime-600 to-green-600">
         <img
@@ -189,7 +146,7 @@ const JoinACampaign = () => {
           alt="Nature background"
           className="absolute inset-0 w-full h-full object-cover brightness-75"
         />
-        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="absolute inset-0 bg-black/50 backdrop-blur-sm z-10"></div>
         <motion.div
           className="relative z-10 text-center text-white"
           initial="hidden"
@@ -217,7 +174,6 @@ const JoinACampaign = () => {
           </motion.div>
         )}
       </section >
-
       {/* Campaigns Section - FIXED: Removed the incorrect 'section' attribute */}
       <section ref={campaignsRef} className="p-6 md:p-16 bg-white min-h-screen" >
         <motion.h3
@@ -228,7 +184,6 @@ const JoinACampaign = () => {
         >
           Environmental Campaigns in India
         </motion.h3>
-
         {
           loading ? (
             // Loading skeleton
@@ -287,18 +242,6 @@ const JoinACampaign = () => {
           )
         }
       </section >
-
-      {/* Optional: Login Modal (uncomment and import Modal, LoginForm if needed here) */}
-      {/*
-      {(showLoginModal) && (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"></div>
-      )}
-      {showLoginModal && (
-        <Modal onClose={() => setShowLoginModal(false)}>
-          <LoginForm onClose={() => setShowLoginModal(false)} onLoginSuccess={handleLoginSuccess} />
-        </Modal>
-      )}
-      */}
     </>
   );
 };

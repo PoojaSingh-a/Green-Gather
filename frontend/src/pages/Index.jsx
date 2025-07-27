@@ -19,8 +19,6 @@ const fadeIn = (delay = 0) => ({
   visible: { opacity: 1, y: 0, transition: { duration: 0.3, delay } },
 });
 
-// --- Navbar Component ---
-// Navbar now gets isLoggedIn from context directly
 const Navbar = ({ setShowLoginModal }) => {
   const navigate = useNavigate();
   const { isLoggedIn, logout } = useAuth(); // <--- Get isLoggedIn and logout from context
@@ -37,7 +35,7 @@ const Navbar = ({ setShowLoginModal }) => {
     }
   };
 
-  const menuItems = ['Home', 'About', 'Campaigns', 'Join Us'];
+  const menuItems = ['Home', 'About', 'Campaigns'];
   if (!isLoggedIn) {
     menuItems.push('Login');
   } else {
@@ -68,14 +66,11 @@ const Navbar = ({ setShowLoginModal }) => {
   );
 };
 
-// --- HeroSection Component ---
-// HeroSection now gets isLoggedIn and userName from context directly
 const HeroSection = ({ setShowRegisterModal }) => {
   const images = [mainBckg1, mainBckg2, mainBckg3, mainBckg4];
   const [currentIndex, setCurrentIndex] = useState(0);
   const navigate = useNavigate();
   const { isLoggedIn, userName } = useAuth(); // <--- Get isLoggedIn and userName from context
-
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length);
@@ -85,13 +80,14 @@ const HeroSection = ({ setShowRegisterModal }) => {
 
   return (
     <section
-      className="relative h-screen flex items-center justify-center px-6 transition-all duration-1000"
+      className="relative h-screen flex items-center justify-center px-6 transition-all duration-1000 "
       style={{
         backgroundImage: `url(${images[currentIndex]})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
     >
+     <div className="absolute inset-0 bg-black/50 backdrop-blur-sm z-10"></div>
       <div className="absolute inset-0 bg-green-900 bg-opacity-60 z-0 transition-opacity duration-1000" />
       <div className="relative z-10 max-w-4xl w-full p-8 rounded-2xl bg-white/10 backdrop-blur-md shadow-2xl">
         {userName && (

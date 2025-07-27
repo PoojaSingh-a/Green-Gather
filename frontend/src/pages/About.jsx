@@ -34,9 +34,6 @@ const About = ({ setShowLoginModal }) => {
             case 'Campaigns':
                 navigate('/campaigns');
                 break;
-            case 'Join Us':
-                navigate('/joinus');
-                break;
             case 'Login':
                 setShowLoginModal(true); // Open login modal
                 break;
@@ -52,7 +49,6 @@ const About = ({ setShowLoginModal }) => {
         { label: 'Home', path: '/' },
         { label: 'About', path: '/about' },
         { label: 'Campaigns', path: '/campaigns' },
-        { label: 'Join Us', path: '/joinacampaign' }, // Correct path for this page
     ];
 
     if (!isLoggedIn) {
@@ -95,7 +91,7 @@ const About = ({ setShowLoginModal }) => {
                 style={{ backgroundImage: `url(${bgImage})` }}
             >
                 {/* Overlay */}
-                <div className="absolute inset-0 bg-green-700 bg-opacity-50 z-0" />
+                <div className="absolute inset-0 bg-black/50 backdrop-blur-sm z-10"></div>
 
                 {/* Content Wrapper */}
                 <div className="relative z-10">
@@ -105,20 +101,14 @@ const About = ({ setShowLoginModal }) => {
                         initial="hidden"
                         animate="visible"
                     >
-                        <h2 className="text-5xl font-bold text-white mb-4 drop-shadow">
-                            About GreenSpark
-                        </h2>
-                        <p className="text-lg md:text-xl mt-4 text-lime-200 font-medium">
-                            A nature-first initiative empowering individuals to create greener cities
-                            through tree planting, sustainability campaigns, and eco-action.
-                        </p>
+                        
                     </motion.div>
 
                     {/* Info Cards */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-16">
                         {/* Mission */}
                         <motion.div
-                            className="bg-white rounded-xl p-8 shadow-xl backdrop-blur-sm border border-green-300"
+                            className="bg-white rounded-xl p-12 shadow-xl backdrop-blur-sm border border-green-300"
                             variants={fadeIn(0.3)}
                             initial="hidden"
                             animate="visible"
