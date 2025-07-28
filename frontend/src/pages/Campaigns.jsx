@@ -23,18 +23,20 @@ const CAMPAIGN_CARDS_DATA = [
         description: "Take the lead in organizing a beach cleanup and contribute to preserving marine life and coastal beauty.",
         location: "India",
         image: card1,
+        route:"/campaigns/create",
     },
     {
         title: "Explore eco-friendly initiatives",
         description: "Support tree plantation efforts in urban areas to enhance greenery and combat environmental pollution.",
         location: "India",
         image: card2,
+        route:"/campaigns/ongoing",
     },
 ];
 
 const Campaigns = () => {
     const navigate = useNavigate();
-    const { isLoggedIn, logout } = useAuth();
+    const { isLoggedIn, logout  } = useAuth();
     const [showScrollHint, setShowScrollHint] = useState(true);
     const campaignsRef = useRef(null);
 
@@ -92,7 +94,7 @@ const Campaigns = () => {
                 {/* Dark blur overlay */}
                 <div className="absolute inset-0 bg-black/50 backdrop-blur-sm z-10"></div>
                 {/* Content */}
-                <motion.div
+                <motion.div                    
                     className="relative z-20 text-white text-center max-w-4xl"
                     initial="hidden"
                     animate="visible"
@@ -134,8 +136,10 @@ const Campaigns = () => {
                     {CAMPAIGN_CARDS_DATA.map((campaign, index) => (
                         <motion.div
                             key={campaign.title} // Assuming titles are unique for keys
-                            className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300" // Added duration to transition
+                            className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:cursor-pointer" // Added duration to transition
                             variants={fadeIn(index * 0.2)}
+                            
+                            onClick={()=>window.open(campaign.route,'_blank')}
                         >
                             <img
                                 src={campaign.image}

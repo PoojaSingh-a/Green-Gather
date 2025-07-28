@@ -5,8 +5,11 @@ import JoinACampaignPage from './pages/JoinACampaign';
 import About from './pages/About';
 import { SignIn } from '@clerk/clerk-react';
 import Campaigns from './pages/Campaigns';
+import CreateCampaign from './pages/CreateCampaign';
+import OngoingCampaign from './pages/OngoingCampaign';
 
 const App = () => {
+  
   return (
     <Routes>
       <Route path="/" element={<IndexPage />} />
@@ -14,6 +17,8 @@ const App = () => {
       <Route path="/about" element={<About />} />
       <Route path="/campaigns" element={<Campaigns/>} />
       <Route path="/login" element={<SignIn />} />
+      <Route path="/campaigns/create" element={<CreateCampaign />} />
+      <Route path="/campaigns/ongoing" element={<OngoingCampaign />} />
     </Routes>
   );
 };

@@ -21,7 +21,7 @@ const fadeIn = (delay = 0) => ({
 
 const Navbar = ({ setShowLoginModal }) => {
   const navigate = useNavigate();
-  const { isLoggedIn, logout } = useAuth(); // <--- Get isLoggedIn and logout from context
+  const { isLoggedIn, logout } = useAuth();
   console.log("isLogged is : ", isLoggedIn);
   const handleNavigation = (item) => {
     switch (item) {
@@ -70,7 +70,7 @@ const HeroSection = ({ setShowRegisterModal }) => {
   const images = [mainBckg1, mainBckg2, mainBckg3, mainBckg4];
   const [currentIndex, setCurrentIndex] = useState(0);
   const navigate = useNavigate();
-  const { isLoggedIn, userName } = useAuth(); // <--- Get isLoggedIn and userName from context
+  const { isLoggedIn, userName } = useAuth();  
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length);
@@ -132,7 +132,6 @@ const HeroSection = ({ setShowRegisterModal }) => {
   );
 };
 
-// --- Button Component ---
 const Button = ({ text, gradient, onClick }) => (
   <button
     onClick={onClick}
@@ -146,7 +145,6 @@ const Button = ({ text, gradient, onClick }) => (
   </button>
 );
 
-// --- HowItWorks Component ---
 const HowItWorks = () => (
   <section className="py-24 px-6 md:px-20 bg-gradient-to-br text-center">
     <motion.div
@@ -186,7 +184,6 @@ const HowItWorks = () => (
   </section>
 );
 
-// --- Footer Component ---
 const Footer = () => (
   <footer className="bg-green-900 backdrop-blur-md text-white text-center py-4 mt-16">
     <p className="text-sm">&copy; 2025 GreenSpark. All rights reserved.</p>
@@ -198,11 +195,8 @@ const Footer = () => (
   </footer>
 );
 
-// --- Main Index Component ---
 const Index = () => {
-  // Use useAuth to get the login function and isLoading status
   const { login, isLoading } = useAuth(); 
-
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   // Removed local isLoggedIn and userName states as they are now managed by AuthContext
@@ -217,10 +211,10 @@ const Index = () => {
     setShowRegisterModal(false);
   };
 
-  const handleLoginSuccess = (loggedInUserName) => { // LoginForm should pass the username on success
-    login(loggedInUserName); // <--- Use the login function from AuthContext to update global state
+  const handleLoginSuccess = (loggedInUserName) => {  
+    login(loggedInUserName);  
     setShowLoginModal(false);
-    toast.success('Logged in successfully!', { // Add a success toast for login
+    toast.success('Logged in successfully!', {  
       position: 'top-right',
       autoClose: 3000,
       hideProgressBar: false,
@@ -228,7 +222,6 @@ const Index = () => {
     });
   };
 
-  // Render a loading state while authentication check is in progress
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-lime-50 via-green-100 to-sky-100">
@@ -240,23 +233,19 @@ const Index = () => {
 
   return (
     <div className="font-sans text-gray-900 bg-gradient-to-br from-lime-50 via-green-100 to-sky-100 min-h-screen overflow-x-hidden">
-      {/* Navbar and HeroSection no longer need isLoggedIn/userName props from Index */}
       <Navbar setShowLoginModal={setShowLoginModal} />
       <HeroSection setShowRegisterModal={setShowRegisterModal} />
       <HowItWorks />
       <Footer />
       <ToastContainer />
-
       {(showLoginModal || showRegisterModal) && (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"></div>
       )}
-
       {showLoginModal && (
         <Modal onClose={() => setShowLoginModal(false)}>
           <LoginForm onClose={() => setShowLoginModal(false)} onLoginSuccess={handleLoginSuccess} />
         </Modal>
       )}
-
       {showRegisterModal && (
         <Modal onClose={() => setShowRegisterModal(false)}>
           <RegisterForm onClose={() => setShowRegisterModal(false)} onRegisterSuccess={handleRegisterSuccess} />

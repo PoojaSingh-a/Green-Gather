@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const cookieParser = require('cookie-parser');
+const campaignRoutes = require('./routes/campaignRoutes');
 
 const app = express();
 app.use(cors({
@@ -16,6 +17,7 @@ app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 
+app.use('/api/campaigns',campaignRoutes);
 
 mongoose.connect('mongodb://localhost:27017/GreenSpark', {
   useNewUrlParser: true,
