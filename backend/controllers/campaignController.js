@@ -15,7 +15,7 @@ exports.createCampaign = async(req,res) => {
 exports.getAllCampaign = async(req,res)=>{
     try{
         const campaigns = await Campaign.find();
-        console.log('Fetched campaigns:', campaigns); // 👈 add this
+        console.log('Fetched campaigns:', campaigns);
         res.status(200).json(campaigns);
     }
     catch(err){
