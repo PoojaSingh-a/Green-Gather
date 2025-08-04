@@ -33,8 +33,7 @@ const CreateCampaign = () => {
       name: user.name || '',
       email: user.email || ''
     }));
-    console.log(name);
-  console.log(email);
+    console.log("Prefilled from user:", user.name, user.email);
   }
 }, [user]);
 
@@ -115,7 +114,7 @@ const CreateCampaign = () => {
                 type="text"
                 id="yourName"
                 name="name"
-                placeholder="Pooja singhhh"
+                placeholder="Pooja singh"
                 value={formData.name} readOnly onChange={handleChange}
                 className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-lime-500 focus:border-transparent text-gray-800 placeholder-gray-400 transition duration-200 ease-in-out"
                 required

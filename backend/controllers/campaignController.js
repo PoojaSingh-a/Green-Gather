@@ -11,3 +11,15 @@ exports.createCampaign = async(req,res) => {
         res.status(500).json({message:'Failed to create campaign'});
     }
 }
+
+exports.getAllCampaign = async(req,res)=>{
+    try{
+        const campaigns = await Campaign.find();
+        console.log('Fetched campaigns:', campaigns); // 👈 add this
+        res.status(200).json(campaigns);
+    }
+    catch(err){
+        console.error('Error fetching campaigns:',err);
+        res.status(500).json({message:'Server error'});
+    }
+}

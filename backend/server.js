@@ -15,8 +15,7 @@ app.use(cookieParser());
 
 app.use(express.json());
 
-app.use('/api/auth', authRoutes);
-
+app.use('/api/auth', authRoutes); 
 app.use('/api/campaigns',campaignRoutes);
 
 mongoose.connect('mongodb://localhost:27017/GreenSpark', {

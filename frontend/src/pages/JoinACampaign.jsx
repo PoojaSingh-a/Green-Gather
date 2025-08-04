@@ -7,6 +7,7 @@ import mainBckg1 from '../assets/images/mainBckg.jpg';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/authContext.jsx'; 
 import { toast } from 'react-toastify'; 
+//import { useNavigate } from 'react-router-dom';
 
 const Navbar = ({ setShowLoginModal }) => {
   const navigate = useNavigate();
@@ -157,7 +158,7 @@ const JoinACampaign = () => {
           <p className="text-xl max-w-2xl mx-auto text-lime-100 font-light">
             Take action for a greener planet. Join a local initiative, make an impact, and inspire change.
           </p>
-          <button className=" mt-7 py-3 px-5 text-white font-semibold border-white border-2 rounded-full hover:bg-white hover:text-black hover:font-semibold ">
+          <button className=" mt-7 py-3 px-5 text-white font-semibold border-white border-2 rounded-full hover:bg-white hover:text-black hover:font-semibold" onClick={()=> navigate("/campaigns/create")}>
             Create a Campaign
           </button>
         </motion.div>
