@@ -128,7 +128,6 @@ const CreateCampaign = () => {
                 value={formData.name}
                 onChange={handleChange}
                 className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-lime-500 focus:border-transparent text-gray-800 placeholder-gray-400 transition duration-200 ease-in-out"
-                readOnly
                 required
               />
             </div>
