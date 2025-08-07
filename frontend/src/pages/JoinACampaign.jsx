@@ -3,7 +3,7 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { FaLeaf } from 'react-icons/fa';
 import { IoIosArrowDown } from 'react-icons/io';
-import mainBckg1 from '../assets/images/mainBckg.jpg';
+import mainBckg1 from '../assets/images/mainBckg.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/authContext.jsx'; 
 import { toast } from 'react-toastify'; 

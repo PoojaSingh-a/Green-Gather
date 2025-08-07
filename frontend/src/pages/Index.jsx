@@ -1,68 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { FiMapPin } from 'react-icons/fi';
-import { FaHandsHelping, FaStar, FaLeaf } from 'react-icons/fa';
+import { FaGlobeAsia, FaTimes, FaBars } from "react-icons/fa";
+import { FaHandsHelping, FaStar, FaRecycle } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import mainBckg1 from '../assets/images/mainBckg.jpg';
-import mainBckg2 from '../assets/images/mainBckg1.jpg';
-import mainBckg3 from '../assets/images/mainBckg2.jpg';
-import mainBckg4 from '../assets/images/mainBckg3.jpg';
+import mainBckg1 from '../assets/images/mainBckg.png';
+import mainBckg2 from '../assets/images/mainBckg1.png';
+import mainBckg3 from '../assets/images/mainBckg2.png';
+import mainBckg4 from '../assets/images/mainBckg3.png';
 import Modal from "../components/Modal";
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
 import { useAuth } from '../context/authContext.jsx';
+import Navbar from '../components/Navbar';
 
 const fadeIn = (delay = 0) => ({
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, delay, ease: "easeOut" } },
 });
-
-const Navbar = ({ setShowLoginModal }) => {
-  const navigate = useNavigate();
-  const { isLoggedIn, logout } = useAuth();
-
-  const handleNavigation = (item) => {
-    switch (item) {
-      case 'Home': navigate('/'); break;
-      case 'About': navigate('/about'); break;
-      case 'Campaigns': navigate('/campaigns'); break;
-      case 'Login': setShowLoginModal(true); break;
-      case 'Logout': logout(); break;
-      default: break;
-    }
-  };
-
-  const baseMenuItems = ['Home', 'About', 'Campaigns'];
-  const menuItems = isLoggedIn ? [...baseMenuItems, 'Logout'] : [...baseMenuItems, 'Login'];
-
-  return (
-    <nav className="flex justify-between items-center px-8 md:px-16 py-4 bg-black/20 backdrop-blur-lg border-b border-white/10 fixed top-0 w-full z-50">
-      <div
-        className="flex items-center gap-3 cursor-pointer"
-        onClick={() => navigate('/')}
-      >
-        <FaLeaf className="text-3xl text-lime-500 animate-pulse-slow" />
-        <h1 className="text-3xl font-bold tracking-wide text-white">GreenSpark</h1>
-      </div>
-      <ul className="flex gap-6 text-base md:text-md font-medium">
-        {menuItems.map((item, index) => (
-          <motion.li
-            key={item}
-            className="text-white hover:text-lime-500 transition-colors duration-200 cursor-pointer"
-            variants={fadeIn(index * 0.1)}
-            initial="hidden"
-            animate="visible"
-            onClick={() => handleNavigation(item)}
-          >
-            {item}
-          </motion.li>
-        ))}
-      </ul>
-    </nav>
-  );
-};
 
 const HeroSection = ({ setShowRegisterModal }) => {
   const images = [mainBckg1, mainBckg2, mainBckg3, mainBckg4];
@@ -104,15 +61,15 @@ const HeroSection = ({ setShowRegisterModal }) => {
           initial="hidden"
           animate="visible"
         >
-          Join the <span className="text-lime-500">Green</span> Movement
+          Join the  <span className='text-lime-600'>Green</span>Gather
         </motion.h2>
         <motion.p
-          className="text-lg md:text-2xl text-gray-200 mb-8 leading-relaxed drop-shadow"
+          className="text-lg md:text-2xl text-gray-200 mb-8 mt-10 leading-relaxed drop-shadow"
           variants={fadeIn(0.2)}
           initial="hidden"
           animate="visible"
         >
-          Be part of a vibrant community restoring nature and earning green rewards.
+          Be part of a vibrant community participating in clean-ups, recycling drives, and nature campaigns.
         </motion.p>
         <motion.div
           className="flex flex-wrap justify-center gap-4 mt-8"
@@ -142,10 +99,29 @@ const Button = ({ text, gradient, onClick }) => (
   </button>
 );
 
+const DeveloperMessage = () => (
+  <section className="py-24 px-6 md:px-20 bg-lime-600 text-white">
+    <motion.div
+      className="max-w-3xl mx-auto text-center"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={fadeIn(0.2)}
+    >
+      <h3 className="text-3xl md:text-4xl font-extrabold mb-4 text-white drop-shadow-md">
+        A Word from the Developer
+      </h3>
+      <p className="text-lg md:text-xl mt-12 leading-relaxed text-black italic">
+        "As a tech and environmental enthusiast, I wanted to create a platform that makes it easy for everyone to get involved in local green initiatives. Your feedback is vital to making this a great experience for our community. Please feel free to share your thoughts!"
+      </p>
+    </motion.div>
+  </section>
+);
+
 const HowItWorks = () => (
   <section className="py-24 px-6 md:px-20 bg-gray-50 text-gray-900">
     <h3 className="text-4xl md:text-5xl font-extrabold text-center mb-16 text-green-900 drop-shadow-md">
-      How It Works
+      Ready to make a difference?
     </h3>
     <motion.div
       className="grid gap-10 md:grid-cols-3"
@@ -156,28 +132,35 @@ const HowItWorks = () => (
       {[
         {
           icon: <FiMapPin className="text-5xl text-lime-500 mb-5 mx-auto" />,
-          title: 'Discover Campaigns',
-          description: 'Find eco-events and drives near you with ease.',
+          title: 'Find Your Mission',
+          description: 'Search for local clean-ups, recycling drives, and eco-campaigns near you with a quick search!',
         },
         {
           icon: <FaHandsHelping className="text-5xl text-lime-500 mb-5 mx-auto" />,
-          title: 'Join & Participate',
-          description: 'Contribute to tree-planting, clean-ups, and more.',
+          title: 'Join the Patrol',
+          description: 'Team up with other patrollers and lend a hand to protect our planet.',
         },
         {
-          icon: <FaStar className="text-5xl text-lime-500 mb-5 mx-auto" />,
-          title: 'Earn Points & Impact',
-          description: 'Track your contributions and unlock green rewards.',
+          icon: <FaRecycle className="text-5xl text-lime-500 mb-5 mx-auto" />,
+          title: 'Track Your Impact',
+          description: 'Log your contributions and see the amazing difference you and your team are making.',
         },
       ].map((item, index) => (
         <motion.div
           key={index}
-          className="bg-white rounded-3xl border border-gray-100 p-10 text-center transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-lime-200/50"
+          className="bg-lime-200 rounded-3xl border border-gray-300 p-10 text-center transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-lime-400/50 group"
           variants={fadeIn(index * 0.2)}
         >
-          {item.icon}
+          <motion.div
+            className="mb-5 mx-auto w-fit"
+            initial={{ scale: 1 }}
+            whileHover={{ scale: 1.1, rotate: 10 }}
+            transition={{ duration: 0.3 }}
+          >
+            {item.icon}
+          </motion.div>
           <h4 className="text-2xl font-semibold text-green-800">{item.title}</h4>
-          <p className="text-gray-600 mt-4 leading-relaxed">{item.description}</p>
+          <p className="text-gray-700 mt-4 leading-relaxed">{item.description}</p>
         </motion.div>
       ))}
     </motion.div>
@@ -185,8 +168,8 @@ const HowItWorks = () => (
 );
 
 const Footer = () => (
-  <footer className="bg-green-900 text-white text-center py-6 border-t border-white/10">
-    <p className="text-sm opacity-80">&copy; 2025 GreenSpark. All rights reserved.</p>
+  <footer className="bg-lime-700 text-white text-center py-6 border-t border-white/10">
+    <p className="text-sm opacity-80">&copy; 2025 Planet Patrol. All rights reserved.</p>
     <div className="mt-2 text-xs space-x-4 opacity-60">
       <a href="#" className="hover:underline">About</a>
       <a href="#" className="hover:underline">Contact</a>
@@ -224,7 +207,7 @@ const Index = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-green-950 text-white">
-        <FaLeaf className="text-6xl text-lime-500 animate-spin" />
+        <FaRecycle className="text-6xl text-lime-500 animate-spin" />
         <p className="ml-4 text-xl text-gray-300">Loading user session...</p>
       </div>
     );
@@ -234,6 +217,7 @@ const Index = () => {
     <div className="font-sans text-gray-900 bg-gradient-to-br from-lime-50 via-green-100 to-sky-100 min-h-screen overflow-x-hidden">
       <Navbar setShowLoginModal={setShowLoginModal} />
       <HeroSection setShowRegisterModal={setShowRegisterModal} />
+      <DeveloperMessage />
       <HowItWorks />
       <Footer />
       <ToastContainer />

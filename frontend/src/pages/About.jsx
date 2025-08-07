@@ -1,212 +1,207 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaLeaf } from 'react-icons/fa';
-import bgImage from '../assets/images/mainBckg1.jpg';
-import {
-    Leaf,
-    Target,
-    Eye,
-    TrendingUp,
-    Users,
-    TreeDeciduous,
-    Globe,
-} from 'lucide-react';
+import { FaLeaf, FaHandsHelping, FaGlobeAsia, FaRecycle, FaStar, FaUsers } from 'react-icons/fa';
+import bgImage from '../assets/images/CampaginBanner.jpg';
+import Navbar from '../components/Navbar';
 import { useAuth } from '../context/authContext.jsx';
 
+// Animation variants for a staggered fade-in effect
 const fadeIn = (delay = 0) => ({
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay, ease: "easeOut" } },
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay, ease: "easeOut" } },
 });
 
+// Stagger container variant for animating children with a delay
+const staggerContainer = {
+    hidden: {},
+    visible: {
+        transition: {
+            staggerChildren: 0.2, // Delay between each child's animation
+        },
+    },
+};
+
+// Card hover and tap animations
+const cardVariants = {
+    rest: { scale: 1, rotate: 0, transition: { duration: 0.3 } },
+    hover: {
+        scale: 1.05,
+        rotate: 1,
+        transition: { duration: 0.3 }
+    },
+    tap: { scale: 0.95 }
+};
+
+// Icon pulse animation
+const iconVariants = {
+    rest: { scale: 1 },
+    hover: { scale: 1.1, transition: { repeat: Infinity, repeatType: "reverse", duration: 0.8 } }
+};
+
+
 const About = ({ setShowLoginModal }) => {
-    const navigate = useNavigate();
-    const { isLoggedIn, logout } = useAuth();
+    const navigate = useNavigate();
+    const { isLoggedIn, logout } = useAuth();
 
-    const handleNavigation = (item) => {
-        switch (item) {
-            case 'Home': navigate('/'); break;
-            case 'About': navigate('/about'); break;
-            case 'Campaigns': navigate('/campaigns'); break;
-            case 'Login': setShowLoginModal(true); break;
-            case 'Logout': logout(); break;
-            default: break;
-        }
-    };
+    return (
+        <>
+            <div className="relative min-h-screen bg-green-950 text-gray-100 overflow-hidden">
+                {/* Background Section with a cool parallax scroll effect */}
+                <motion.div
+                    className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+                    style={{ backgroundImage: `url(${bgImage})` }}
+                    initial={{ scale: 1.1 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 1.5, ease: "easeOut" }}
+                >
+                    <div className="absolute inset-0 bg-black/20 backdrop-blur-sm"></div>
+                </motion.div>
 
-    const baseMenuItems = [
-        { label: 'Home', path: '/' },
-        { label: 'About', path: '/about' },
-        { label: 'Campaigns', path: '/campaigns' },
-    ];
+                <Navbar setShowLoginModal={setShowLoginModal} />
 
-    const actionItem = isLoggedIn
-        ? { label: 'Logout', action: logout }
-        : { label: 'Login', action: () => setShowLoginModal(true) };
+                {/* Main Content */}
+                <section className="relative z-10 pt-32 pb-20 px-6 md:px-24">
+                    <div className="max-w-7xl mx-auto">
+                        {/* Header */}
+                        <motion.div
+                            className="text-center max-w-4xl mx-auto mb-16"
+                            variants={fadeIn(0.2)}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true, amount: 0.5 }}
+                        >
+                            <h2 className="text-5xl md:text-6xl font-extrabold text-white drop-shadow-lg leading-tight mb-4">
+                                Our Story
+                            </h2>
+                            <p className="text-xl md:text-2xl text-gray-300 font-light mt-4">
+                                Every great change starts with a single step. For us, that step was the realization that our planet gives us everything, and it's our turn to give back. This platform is built on that simple idea—a way for us all to make a real, lasting difference, together.
+                            </p>
+                        </motion.div>
 
-    const menuItems = [...baseMenuItems, actionItem];
+                        {/* Info Cards Grid */}
+                        <motion.div
+                            className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-12"
+                            variants={staggerContainer}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true, amount: 0.2 }}
+                        >
+                            {/* Our Purpose */}
+                            <motion.div
+                                className="bg-white/10 backdrop-blur-xl rounded-3xl p-10 shadow-lg border border-white/10"
+                                variants={cardVariants}
+                                initial="rest"
+                                whileHover="hover"
+                                whileTap="tap"
+                            >
+                                <div className="flex items-start gap-4 mb-4">
+                                    <motion.div variants={iconVariants}>
+                                        <FaGlobeAsia className="text-lime-500 min-w-[28px] text-3xl" />
+                                    </motion.div>
+                                    <h3 className="text-3xl font-semibold text-lime-400">Our Purpose</h3>
+                                </div>
+                                <p className="text-lg text-white pl-11">
+                                    To make environmental action easy and accessible for everyone. We believe that by working together, we can multiply small actions into a massive global impact.
+                                </p>
+                            </motion.div>
 
-    return (
-        <div className="relative min-h-screen bg-green-950 text-gray-100 overflow-hidden">
-            {/* Background Section */}
-            <div
-                className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-                style={{ backgroundImage: `url(${bgImage})` }}
-            >
-                <div className="absolute inset-0 bg-black/20 backdrop-blur-sm"></div>
-            </div>
+                            {/* Our Values */}
+                            <motion.div
+                                className="bg-white/10 backdrop-blur-xl rounded-3xl p-10 shadow-lg border border-white/10"
+                                variants={cardVariants}
+                                initial="rest"
+                                whileHover="hover"
+                                whileTap="tap"
+                            >
+                                <div className="flex items-start gap-4 mb-4">
+                                    <motion.div variants={iconVariants}>
+                                        <FaHandsHelping className="text-lime-500 min-w-[28px] text-3xl" />
+                                    </motion.div>
+                                    <h3 className="text-3xl font-semibold text-lime-400">Our Values</h3>
+                                </div>
+                                <p className="text-lg text-white pl-11">
+                                    We are built on the principles of **Community, Action, and Fun**. We believe that by making environmental efforts social and engaging, we can build a strong network of everyday heroes.
+                                </p>
+                            </motion.div>
 
-            {/* Navigation Bar */}
-            <nav className="flex justify-between items-center px-8 md:px-16 py-4 bg-black/20 backdrop-blur-lg border-b border-white/10 fixed top-0 w-full z-50">
-                <div
-                    className="flex items-center gap-3 cursor-pointer"
-                    onClick={() => navigate('/')}
-                >
-                    <FaLeaf className="text-3xl text-lime-500 animate-pulse-slow" />
-                    <h1 className="text-3xl font-bold tracking-wide text-white">GreenSpark</h1>
-                </div>
-                <ul className="flex gap-6 text-base md:text-md font-medium">
-                    {menuItems.map((item, index) => (
-                        <motion.li
-                            key={item.label}
-                            className="hover:text-lime-300 transition-colors duration-200 cursor-pointer"
-                            variants={fadeIn(index * 0.1)}
-                            initial="hidden"
-                            animate="visible"
-                            onClick={() => handleNavigation(item.label)}
-                        >
-                            <Link to={item.path || '#'} onClick={e => {
-                                if (item.label === 'Login' || item.label === 'Logout') {
-                                    e.preventDefault();
-                                    handleNavigation(item.label);
-                                }
-                            }}>
-                                {item.label}
-                            </Link>
-                        </motion.li>
-                    ))}
-                </ul>
-            </nav>
+                            {/* Our Impact */}
+                            <motion.div
+                                className="bg-white/10 backdrop-blur-xl rounded-3xl p-10 shadow-lg border border-white/10"
+                                variants={cardVariants}
+                                initial="rest"
+                                whileHover="hover"
+                                whileTap="tap"
+                            >
+                                <div className="flex items-start gap-4 mb-4">
+                                    <motion.div variants={iconVariants}>
+                                        <FaStar className="text-lime-500 min-w-[28px] text-3xl" />
+                                    </motion.div>
+                                    <h3 className="text-3xl font-semibold text-lime-400">Our Impact</h3>
+                                </div>
+                                <p className="text-lg text-white pl-11">
+                                    We don’t measure our impact with numbers, but with the growth of our community and the enthusiasm of every person who takes part. Every action, big or small, creates a ripple of positive change.
+                                </p>
+                            </motion.div>
 
-            {/* Main Content */}
-            <section className="relative z-10 pt-32 pb-20 px-6 md:px-24">
-                <div className="max-w-7xl mx-auto">
-                    {/* Header */}
-                    <motion.div
-                        className="text-center max-w-4xl mx-auto mb-16"
-                        variants={fadeIn(0.2)}
-                        initial="hidden"
-                        animate="visible"
-                    >
-                        <h2 className="text-5xl md:text-6xl font-extrabold text-white drop-shadow-lg leading-tight mb-4">
-                            Our Story of Change
-                        </h2>
-                        <p className="text-xl md:text-2xl text-gray-300 font-light mt-4">
-                            We are committed to building a sustainable future, one action at a time.
-                        </p>
-                    </motion.div>
+                            {/* What’s Next */}
+                            <motion.div
+                                className="bg-white/10 backdrop-blur-xl rounded-3xl p-10 shadow-lg border border-white/10"
+                                variants={cardVariants}
+                                initial="rest"
+                                whileHover="hover"
+                                whileTap="tap"
+                            >
+                                <div className="flex items-start gap-4 mb-4">
+                                    <motion.div variants={iconVariants}>
+                                        <FaRecycle className="text-lime-500 min-w-[28px] text-3xl" />
+                                    </motion.div>
+                                    <h3 className="text-3xl font-semibold text-lime-400">What’s Next</h3>
+                                </div>
+                                <p className="text-lg text-white pl-11">
+                                    Our journey is just beginning. We're excited to expand our community, launch new campaigns, and introduce features that make protecting our planet a rewarding experience for everyone involved.
+                                </p>
+                            </motion.div>
+                        </motion.div>
 
-                    {/* Info Cards Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-12">
-                        {/* Mission */}
-                        <motion.div
-                            className="bg-white/30 backdrop-blur-xl rounded-3xl p-10 shadow-lg border border-white/10 transition-transform duration-300 hover:scale-105"
-                            variants={fadeIn(0.3)}
-                            initial="hidden"
-                            animate="visible"
-                        >
-                            <div className="flex items-start gap-4 mb-4">
-                                <Target className="text-lime-500 min-w-[28px]" size={28} />
-                                <h3 className="text-3xl font-semibold text-lime-400">Our Mission</h3>
-                            </div>
-                            <p className="text-lg text-white pl-11">
-                                To connect people with verified environmental campaigns and reward
-                                eco-conscious action — making sustainability a daily habit.
-                            </p>
-                        </motion.div>
-
-                        {/* Vision */}
-                        <motion.div
-                            className="bg-white/30 backdrop-blur-xl rounded-3xl p-10 shadow-lg border border-white/10 transition-transform duration-300 hover:scale-105"
-                            variants={fadeIn(0.4)}
-                            initial="hidden"
-                            animate="visible"
-                        >
-                            <div className="flex items-start gap-4 mb-4">
-                                <Eye className="text-lime-500 min-w-[28px]" size={28} />
-                                <h3 className="text-3xl font-semibold text-lime-400">Our Vision</h3>
-                            </div>
-                            <p className="text-lg text-white pl-11">
-                                A united planet where communities protect nature together —
-                                through local impact and digital innovation.
-                            </p>
-                        </motion.div>
-
-                        {/* Impact */}
-                        <motion.div
-                            className="bg-white/30 backdrop-blur-xl rounded-3xl p-10 shadow-lg border border-white/10 transition-transform duration-300 hover:scale-105"
-                            variants={fadeIn(0.5)}
-                            initial="hidden"
-                            animate="visible"
-                        >
-                            <div className="flex items-start gap-4 mb-4">
-                                <TrendingUp className="text-lime-500 min-w-[28px]" size={28} />
-                                <h3 className="text-3xl font-semibold text-lime-400">Our Impact</h3>
-                            </div>
-                            <ul className="list-none text-white space-y-3 pl-11">
-                                <li><Users size={20} className="inline mr-2 text-lime-500" /> 1,000+ active members</li>
-                                <li><TreeDeciduous size={20} className="inline mr-2 text-lime-500" /> 2,500+ trees planted</li>
-                                <li><Globe size={20} className="inline mr-2 text-lime-500" /> 40+ city-wide eco-campaigns</li>
-                            </ul>
-                        </motion.div>
-
-                        {/* Future Plans */}
-                        <motion.div
-                            className="bg-white/30 backdrop-blur-xl rounded-3xl p-10 shadow-lg border border-white/10 transition-transform duration-300 hover:scale-105"
-                            variants={fadeIn(0.6)}
-                            initial="hidden"
-                            animate="visible"
-                        >
-                            <div className="flex items-start gap-4 mb-4">
-                                <Leaf className="text-lime-500 min-w-[28px]" size={28} />
-                                <h3 className="text-3xl font-semibold text-lime-400">What’s Next</h3>
-                            </div>
-                            <p className="text-lg text-white pl-11">
-                                Earn eco-points for participating in green activities. Redeem them
-                                for rewards — and plant a tree with every new signup.
-                            </p>
-                        </motion.div>
-                    </div>
-
-                    {/* Call to Action */}
-                    <motion.div
-                        className="text-center mt-24"
-                        variants={fadeIn(0.8)}
-                        initial="hidden"
-                        animate="visible"
-                    >
-                        <h4 className="text-3xl md:text-4xl font-bold text-white mb-6 drop-shadow">
-                            Join the movement for a better planet 🌍
-                        </h4>
-                        <Link
-                            to="/campaigns"
-                            className="inline-block bg-lime-500 hover:bg-lime-600 text-green-900 text-xl font-bold py-4 px-10 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-                        >
-                            Explore Campaigns
-                        </Link>
-                    </motion.div>
-                </div>
-            </section>
-            <footer className="bg-green-900 text-white text-center py-6 border-t border-white/10">
-                <p className="text-sm opacity-80">&copy; 2025 GreenSpark. All rights reserved.</p>
-                <div className="mt-2 text-xs space-x-4 opacity-60">
-                    <a href="#" className="hover:underline">About</a>
-                    <a href="#" className="hover:underline">Contact</a>
-                    <a href="#" className="hover:underline">Privacy Policy</a>
-                </div>
-            </footer>
-        </div>
-    );
+                        {/* Call to Action */}
+                        <motion.div
+                            className="text-center mt-24"
+                            variants={fadeIn(0.8)}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true, amount: 0.5 }}
+                        >
+                            <h4 className="text-3xl md:text-4xl font-bold text-white mb-6 drop-shadow">
+                                Ready to join the patrol?
+                            </h4>
+                            <motion.div
+                                whileHover={{ scale: 1.05, boxShadow: "0 8px 15px rgba(0, 255, 0, 0.4)" }}
+                                whileTap={{ scale: 0.95 }}
+                                transition={{ duration: 0.2 }}
+                                className="inline-block mt-7"
+                            >
+                                <Link
+                                    to="/campaigns"
+                                    className="bg-lime-500 text-green-900 text-xl font-bold py-4 px-10 rounded-full shadow-lg"
+                                >
+                                    Find a Campaign
+                                </Link>
+                            </motion.div>
+                        </motion.div>
+                    </div>
+                </section>
+            </div>
+            <footer className="bg-lime-700 text-white text-center py-6 border-t border-white/10">
+                <p className="text-sm opacity-80">&copy; 2025 Planet Patrol. All rights reserved.</p>
+                <div className="mt-2 text-xs space-x-4 opacity-60">
+                    <a href="#" className="hover:underline">About</a>
+                    <a href="#" className="hover:underline">Contact</a>
+                    <a href="#" className="hover:underline">Privacy Policy</a>
+                </div>
+            </footer>
+        </>
+    );
 };
 
 export default About;
