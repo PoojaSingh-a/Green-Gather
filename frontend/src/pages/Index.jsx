@@ -167,16 +167,20 @@ const HowItWorks = () => (
   </section>
 );
 
-const Footer = () => (
-  <footer className="bg-lime-700 text-white text-center py-6 border-t border-white/10">
-    <p className="text-sm opacity-80">&copy; 2025 Planet Patrol. All rights reserved.</p>
-    <div className="mt-2 text-xs space-x-4 opacity-60">
-      <a href="#" className="hover:underline">About</a>
-      <a href="#" className="hover:underline">Contact</a>
-      <a href="#" className="hover:underline">Privacy Policy</a>
-    </div>
-  </footer>
-);
+const Footer = () => {
+  const navigate = useNavigate();
+
+  return (
+    <footer className="bg-lime-700 text-white text-center py-6 border-t border-white/10">
+      <p className="text-sm opacity-80">&copy; 2025 Planet Patrol. All rights reserved.</p>
+      <div className="mt-2 text-xs space-x-4 opacity-60">
+        <a href="#" onClick={() => navigate('/about')} className="hover:underline">About</a>
+        <a href="#" className="hover:underline">Contact</a>
+        <a href="#" className="hover:underline">Privacy Policy</a>
+      </div>
+    </footer>
+  );
+};
 
 const Index = () => {
   const { login, isLoading } = useAuth();

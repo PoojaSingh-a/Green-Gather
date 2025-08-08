@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FaLeaf } from 'react-icons/fa';
 import { useAuth } from '../context/authContext';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import backgroundVideo from '../assets/video/bckgVideo1.mp4'; // Make sure this path is correct
+import backgroundVideo from '../assets/video/bckgVideo1.mp4'; 
+import Navbar from '../components/Navbar';
 
 const fadeIn = (delay = 0) => ({
   hidden: { opacity: 0, y: 30 },
@@ -13,7 +13,7 @@ const fadeIn = (delay = 0) => ({
 
 const CreateCampaign = () => {
   const { user } = useAuth();
-  
+  const [showLoginModal,setShowLoginModal] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -77,7 +77,8 @@ const CreateCampaign = () => {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-gray-50 text-gray-800">
-      {/* Background Section */}
+      <Navbar setShowLoginModal={setShowLoginModal} />
+      
       <div className="absolute inset-0 z-0">
         <video
           className="w-full h-full object-cover"
@@ -87,39 +88,34 @@ const CreateCampaign = () => {
           playsInline
           src={backgroundVideo}
         ></video>
-        {/* Overlay for better text readability */}
-        <div className="absolute inset-0 bg-white/60 backdrop-blur-sm"></div>
+        <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
       </div>
 
       <div className="relative z-30 px-4 py-16 md:px-12 lg:px-24">
-        {/* Header */}
         <motion.div
           initial="hidden"
           animate="visible"
           variants={fadeIn(0.2)}
           className="text-center max-w-4xl mx-auto mb-16"
         >
-          <div className="flex items-center justify-center gap-4 text-4xl sm:text-5xl font-extrabold text-gray-900 drop-shadow-lg mb-4">
-            <FaLeaf className="text-lime-600 animate-pulse-slow text-5xl" />
+          <div className="flex items-center justify-center gap-4 mt-14 text-4xl sm:text-5xl font-extrabold text-white/90 drop-shadow-lg mb-4">
             Create a Campaign
           </div>
-          <p className="text-lg text-gray-700 font-medium leading-relaxed mt-4">
+          <p className="text-lg text-white/70 font-medium leading-relaxed mt-7">
             Empower your community by organizing an eco-friendly event. Fill in the details below to get started and make a difference.
           </p>
         </motion.div>
 
-        {/* Campaign Form */}
         <motion.form
           onSubmit={handleSubmit}
           initial="hidden"
           animate="visible"
           variants={fadeIn(0.4)}
-          className="p-8 md:p-12 w-full max-w-6xl bg-black/30 rounded-3xl shadow-xl mx-auto space-y-8 border border-gray-100"
+          className="p-8 md:p-12 w-full max-w-6xl bg-lime-700 rounded-3xl shadow-xl mx-auto space-y-8 border border-lime-900"
         >
-          {/* Name & Email */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             <div>
-              <label htmlFor="yourName" className="block text-sm font-semibold text-gray-700 mb-2">Your Name</label>
+              <label htmlFor="yourName" className="block text-lg font-semibold text-white mb-2">Your Name</label>
               <input
                 type="text"
                 id="yourName"
@@ -133,7 +129,7 @@ const CreateCampaign = () => {
             </div>
 
             <div>
-              <label htmlFor="emailAddress" className="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
+              <label htmlFor="emailAddress" className="block text-lg font-semibold text-white mb-2">Email Address</label>
               <input
                 type="email"
                 id="emailAddress"
@@ -147,10 +143,9 @@ const CreateCampaign = () => {
             </div>
           </div>
 
-          {/* Phone & Category */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             <div>
-              <label htmlFor="phoneNumber" className="block text-sm font-semibold text-gray-700 mb-2">Phone Number</label>
+              <label htmlFor="phoneNumber" className="block text-lg font-semibold text-white mb-2">Phone Number</label>
               <input
                 type="tel"
                 id="phoneNumber"
@@ -163,7 +158,7 @@ const CreateCampaign = () => {
             </div>
 
             <div>
-              <label htmlFor="category" className="block text-sm font-semibold text-gray-700 mb-2">Category</label>
+              <label htmlFor="category" className="block text-lg font-semibold text-white mb-2">Category</label>
               <select
                 id="category"
                 name="category"
@@ -181,9 +176,8 @@ const CreateCampaign = () => {
             </div>
           </div>
 
-          {/* Campaign Title */}
           <div>
-            <label htmlFor="campaignTitle" className="block text-sm font-semibold text-gray-700 mb-2">Campaign Title</label>
+            <label htmlFor="campaignTitle" className="block text-lg font-semibold text-white mb-2">Campaign Title</label>
             <input
               type="text"
               name="title"
@@ -196,10 +190,9 @@ const CreateCampaign = () => {
             />
           </div>
 
-          {/* Location, Date, Duration */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             <div>
-              <label htmlFor="location" className="block text-sm font-semibold text-gray-700 mb-2">Location</label>
+              <label htmlFor="location" className="block text-lg font-semibold text-white mb-2">Location</label>
               <input
                 type="text"
                 id="location"
@@ -213,7 +206,7 @@ const CreateCampaign = () => {
             </div>
 
             <div>
-              <label htmlFor="date" className="block text-sm font-semibold text-gray-700 mb-2">Date</label>
+              <label htmlFor="date" className="block text-lg font-semibold text-white mb-2">Date</label>
               <input
                 type="date"
                 id="date"
@@ -226,7 +219,7 @@ const CreateCampaign = () => {
             </div>
 
             <div>
-              <label htmlFor="duration" className="block text-sm font-semibold text-gray-700 mb-2">Duration</label>
+              <label htmlFor="duration" className="block text-lg font-semibold text-white mb-2">Duration</label>
               <input
                 type="text"
                 id="duration"
@@ -239,9 +232,8 @@ const CreateCampaign = () => {
             </div>
           </div>
 
-          {/* Description */}
           <div>
-            <label htmlFor="description" className="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+            <label htmlFor="description" className="block text-lg font-semibold text-white mb-2">Description</label>
             <textarea
               id="description"
               name="description"
@@ -254,7 +246,6 @@ const CreateCampaign = () => {
             />
           </div>
 
-          {/* Submit Button */}
           <div className="text-right pt-4">
             <button
               type="submit"
