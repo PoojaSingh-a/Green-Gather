@@ -1,5 +1,6 @@
 const Campaign = require("../models/Campaign");
 require('dotenv').config();
+const nodemailer = require('nodemailer');
 
 exports.createCampaign = async (req, res) => {
   try {
