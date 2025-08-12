@@ -7,6 +7,8 @@ import card1 from '../assets/images/mainBckg1.png';
 import card2 from '../assets/images/card2.png';
 import { IoIosArrowDown } from 'react-icons/io';
 import Navbar from "../components/Navbar";
+import LoginForm from '../components/LoginForm';
+import Modal from "../components/Modal";
 
 const fadeIn = (delay = 0) => ({
     hidden: { opacity: 0, y: 30 },
@@ -40,7 +42,11 @@ const Campaigns = () => {
     const { isLoggedIn, logout } = useAuth();
     const [showScrollHint, setShowScrollHint] = useState(true);
     const campaignsRef = useRef(null);
-    const [showLoginModal, setShowLoginModal] = useState(true);
+    const [showLoginModal, setShowLoginModal] = useState(false);
+    const handleLoginSuccess = (userName) => {
+        login(username);
+        setShowLoginModal(false);
+    }
 
     const handleScrollDown = () => {
         if (campaignsRef.current) {
@@ -56,6 +62,15 @@ const Campaigns = () => {
         <div className="relative min-h-screen bg-lime-700 text-gray-100 overflow-hidden">
             {/* Navbar Section */}
             <Navbar setShowLoginModal={setShowLoginModal} />
+            {/* Overlay */}
+            {showLoginModal && (
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"></div>
+            )}
+            {showLoginModal && (
+                <Modal onClose={() => setShowLoginModal(false)}>
+                    <LoginForm onClose={() => setShowLoginModal(false)} onLoginSuccess={handleLoginSuccess} />
+                </Modal>
+            )}
             {/* Hero Section */}
             <section className="relative h-screen flex items-center justify-center px-6 md:px-16 bg-[url('../src/assets/images/CampaignBanner.png')] bg-cover bg-center bg-no-repeat">
                 {/* Dark blur overlay */}

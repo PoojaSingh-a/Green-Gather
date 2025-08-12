@@ -19,7 +19,7 @@ router.get("/check-auth", async (req, res) => {
     const user = await User.findById(decoded.id).select("-password");
     if (!user) return res.status(401).json({ loggedIn: false });
 
-    res.status(200).json({ loggedIn: true, name: user.name });
+    res.status(200).json({ loggedIn: true, name: user.name, email: user.email });
   } catch (err) {
     console.error("Token verification failed:", err);
     res.status(401).json({ loggedIn: false });

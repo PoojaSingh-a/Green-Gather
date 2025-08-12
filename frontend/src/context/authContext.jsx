@@ -6,6 +6,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState('');
+  const [userEmail,setUserEmail] = useState('');
   const [isLoading, setIsLoading] = useState(true); // Added to indicate auth check is in progress
 
   useEffect(() => {
@@ -14,9 +15,11 @@ export const AuthProvider = ({ children }) => {
         const res = await axios.get("http://localhost:5000/api/auth/check-auth", { withCredentials: true });
         setIsLoggedIn(true);
         setUserName(res.data.name);
+        setUserEmail(res.data.email);
       } catch (error) {
         setIsLoggedIn(false);
         setUserName('');
+        setUserEmail('');
       } finally {
         setIsLoading(false); // Auth check completed
       }
@@ -28,6 +31,7 @@ export const AuthProvider = ({ children }) => {
   const login = (name) => {
     setIsLoggedIn(true);
     setUserName(name);
+    setUserEmail(email);
   };
 
   // Function to handle logout
@@ -45,7 +49,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Provide login and logout functions along with state
-  const value = { isLoggedIn, userName, login, logout, isLoading };
+  const value = { isLoggedIn, userName, userEmail, login, logout, isLoading };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 

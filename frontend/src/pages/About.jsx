@@ -5,6 +5,10 @@ import { FaLeaf, FaHandsHelping, FaGlobeAsia, FaRecycle, FaStar, FaUsers } from 
 import bgImage from '../assets/images/CampaginBanner_.jpg';
 import Navbar from '../components/Navbar';
 import { useAuth } from '../context/authContext.jsx';
+import { useState } from 'react';
+import LoginForm from '../components/LoginForm';
+import Modal from "../components/Modal";
+
 
 // Animation variants for a staggered fade-in effect
 const fadeIn = (delay = 0) => ({
@@ -40,9 +44,14 @@ const iconVariants = {
 };
 
 
-const About = ({ setShowLoginModal }) => {
+const About = () => {
     const navigate = useNavigate();
     const { isLoggedIn, logout } = useAuth();
+    const [showLoginModal, setShowLoginModal] = useState(false);
+    const handleLoginSuccess = (userName) => {
+        login(userName);
+        setShowLoginModal(false);
+    };
 
     return (
         <>
@@ -59,7 +68,16 @@ const About = ({ setShowLoginModal }) => {
                 </motion.div>
 
                 <Navbar setShowLoginModal={setShowLoginModal} />
+                {/* Overlay */}
+                {showLoginModal && (
+                    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"></div>
+                )}
 
+                {showLoginModal && (
+                    <Modal onClose={() => setShowLoginModal(false)}>
+                        <LoginForm onClose={() => setShowLoginModal(false)} onLoginSuccess={handleLoginSuccess} />
+                    </Modal>
+                )}
                 {/* Main Content */}
                 <section className="relative z-10 pt-32 pb-20 px-6 md:px-24">
                     <div className="max-w-7xl mx-auto">
@@ -200,6 +218,7 @@ const About = ({ setShowLoginModal }) => {
                     <a href="#" className="hover:underline">Privacy Policy</a>
                 </div>
             </footer>
+
         </>
     );
 };
