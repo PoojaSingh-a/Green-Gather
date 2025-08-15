@@ -3,6 +3,7 @@ import { FaGlobeAsia, FaTimes, FaBars } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/authContext'; 
+import {ToastContainer, toast } from 'react-toastify';
 
 const Navbar = ({ setShowLoginModal }) => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const Navbar = ({ setShowLoginModal }) => {
       case 'About': navigate('/about'); break;
       case 'Campaigns': navigate('/campaigns'); break;
       case 'Login': setShowLoginModal(true); break;
-      case 'Logout': logout(); break;
+      case 'Logout': logout(); toast.success("Logged out!"); break;
       default: break;
     }
     setMenuOpen(false); // Close menu on selection
@@ -25,6 +26,7 @@ const Navbar = ({ setShowLoginModal }) => {
   const menuItems = isLoggedIn ? [...baseMenuItems, 'Logout'] : [...baseMenuItems, 'Login'];
 
   return (
+  <>
     <nav className="flex justify-between items-center px-6 md:px-16 py-4 bg-black/20 backdrop-blur-lg border-b border-white/10 fixed top-0 w-full z-50">
       {/* Logo */}
       <div
@@ -33,13 +35,13 @@ const Navbar = ({ setShowLoginModal }) => {
       >
         <FaGlobeAsia className="text-3xl text-lime-500 transition-all duration-300 group-hover:scale-110" />
         <h1 className="text-2xl md:text-3xl font-bold tracking-wide text-gray-100">
-          <span className='text-lime-500'>Green</span>Gather
+          <span className="text-lime-500">Green</span>Gather
         </h1>
       </div>
 
       {/* Desktop Menu */}
       <ul className="hidden md:flex gap-6 text-base md:text-md font-medium">
-        {menuItems.map((item, index) => (
+        {menuItems.map((item) => (
           <li
             key={item}
             onClick={() => handleNavigation(item)}
@@ -76,7 +78,11 @@ const Navbar = ({ setShowLoginModal }) => {
         </motion.ul>
       )}
     </nav>
-  );
+
+    <ToastContainer />
+  </>
+);
+
 };
 
 export default Navbar
