@@ -19,13 +19,10 @@ app.use(express.json());
 app.use('/api/auth', authRoutes); 
 app.use('/api/campaigns',campaignRoutes);
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(()=>{
-    app.listen(5000, () =>{
-        console.log('Server running on port 5000.');
+mongoose.connect(process.env.MONGO_URI)
+.then(() => {
+    app.listen(5000, () => {
+        console.log('✅ Server running on port 5000 and connected to MongoDB');
     });
 })
-.catch((err)=> console.error('Database connection failed:', err));
+.catch((err) => console.error('❌ Database connection failed:', err));
