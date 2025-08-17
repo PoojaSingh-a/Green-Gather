@@ -49,7 +49,7 @@ const OngoingCampaign = () => {
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/campaigns");
+        const response = await axios.get("/api/campaigns");
         setCampaigns(response.data);
         setFilteredCampaigns(response.data);
       } catch (error) {

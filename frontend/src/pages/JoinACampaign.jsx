@@ -91,7 +91,7 @@ const JoinACampaign = () => {
   }, [lastScrollY]);
 
   useEffect(() => {
-    const backendApiUrl = `http://localhost:5000/api/ticketmaster/events?keyword=environment&sort=date,asc`;
+    const backendApiUrl = `/api/ticketmaster/events?keyword=environment&sort=date,asc`;
     const fetchCampaigns = async () => {
       setLoading(true); // Set loading to true when starting fetch
       try {
