@@ -49,7 +49,7 @@ const OngoingCampaign = () => {
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
-        const response = await axios.get("/api/campaigns");
+        const response = await axios.get("http://localhost:5000/api/campaigns");
         setCampaigns(response.data);
         setFilteredCampaigns(response.data);
       } catch (error) {
@@ -212,7 +212,7 @@ const OngoingCampaign = () => {
                         <span>{campaign.duration}</span>
                       </div>
                       <div className="flex items-center gap-3">
-                        <TbArrowsDiagonal size={20} className="hover:cursor-pointer"/>
+                       {/* <TbArrowsDiagonal size={20} className="hover:cursor-pointer"/> */}
                       </div>
                     </div>
                     </div>

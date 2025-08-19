@@ -30,15 +30,15 @@ const CreateCampaign = () => {
   });
   const [showLoginWarning, setShowLoginWarning] = useState(false);
   const [showFilledLoginWarning, setShowFilledLoginWarning] = useState(false);
-  console.log("Outer Is logged is : ", isLoggedIn);
+
   useEffect(() => {
-    console.log("Inner Is logged is : ", isLoggedIn);
     if (isLoggedIn) {
       setFormData(prev => ({
         ...prev,
         name: userName,
         email: userEmail
       }));
+      //console.log(userName,userEmail);
       setShowLoginWarning(false);
       setShowFilledLoginWarning(false);
     } else {
@@ -49,7 +49,6 @@ const CreateCampaign = () => {
       }));
     }
   }, [isLoggedIn, userName, userEmail]);
-
 
   const handleChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value, });
@@ -66,7 +65,7 @@ const CreateCampaign = () => {
       return;
     }
 
-    if (!user) {
+    if (!userName) {
       setShowLoginWarning(true);
       if (Object.values(formData).some(val => val.trim() !== '')) {
         setShowFilledLoginWarning(true);
@@ -80,7 +79,7 @@ const CreateCampaign = () => {
     setShowFilledLoginWarning(false);
 
     try {
-      const res = await fetch('/api/campaigns/create', {
+      const res = await fetch('http://localhost:5000/api/campaigns/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -157,7 +156,7 @@ const CreateCampaign = () => {
                   type="text"
                   id="yourName"
                   name="name"
-                  placeholder="xyz"
+                  placeholder="Pooja"
                   value={formData.name}
                   onChange={handleChange}
                   readOnly={isLoggedIn}

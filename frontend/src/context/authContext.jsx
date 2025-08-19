@@ -27,7 +27,6 @@ export const AuthProvider = ({ children }) => {
     checkAuthStatus();
   }, []);
 
-  // Function to handle login success and update context state
   const login = (name) => {
     setIsLoggedIn(true);
     setUserName(name);
@@ -40,15 +39,12 @@ export const AuthProvider = ({ children }) => {
       await axios.post("http://localhost:5000/api/auth/logout", {}, { withCredentials: true });
       setIsLoggedIn(false);
       setUserName('');
-      // You can add a toast here if you like
       console.log("Logged out successfully!");
     } catch (error) {
       console.error("Logout failed:", error);
-      // You can add an error toast here if you like
     }
   };
 
-  // Provide login and logout functions along with state
   const value = { isLoggedIn, userName, userEmail, login, logout, isLoading };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

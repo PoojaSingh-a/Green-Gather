@@ -78,8 +78,6 @@ const Navbar = ({ setShowLoginModal }) => {
         </motion.ul>
       )}
     </nav>
-
-    <ToastContainer />
   </>
 );
 

@@ -22,13 +22,13 @@ const fadeIn = (delay = 0) => ({
 });
 
 const HeroSection = ({ setShowRegisterModal }) => {
-  const images = [mainBckg1, mainBckg2, mainBckg3, mainBckg4];
   const [currentIndex, setCurrentIndex] = useState(0);
-  const navigate = useNavigate();
   const { isLoggedIn, userName } = useAuth();
+  const images = [mainBckg1, mainBckg2, mainBckg3, mainBckg4];
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const interval = setInterval(() => {
+      const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length);
     }, 5000);
     return () => clearInterval(interval);
@@ -137,8 +137,8 @@ const HowItWorks = () => (
         },
         {
           icon: <FaHandsHelping className="text-5xl text-lime-500 mb-5 mx-auto" />,
-          title: 'Join the Patrol',
-          description: 'Team up with other patrollers and lend a hand to protect our planet.',
+          title: 'Join the Mission',
+          description: 'Team up with other and lend a hand to protect our planet.',
         },
         {
           icon: <FaRecycle className="text-5xl text-lime-500 mb-5 mx-auto" />,
@@ -169,7 +169,6 @@ const HowItWorks = () => (
 
 const Footer = () => {
   const navigate = useNavigate();
-
   return (
     <footer className="bg-lime-700 text-white text-center py-6 border-t border-white/10">
       <p className="text-sm opacity-80">&copy; 2025 Planet Patrol. All rights reserved.</p>
@@ -222,9 +221,8 @@ const Index = () => {
       <Navbar setShowLoginModal={setShowLoginModal} />
       <HeroSection setShowRegisterModal={setShowRegisterModal} />
       <DeveloperMessage />
-      <HowItWorks />
+      <HowItWorks />  
       <Footer />
-      <ToastContainer />
       {(showLoginModal || showRegisterModal) && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"></div>
       )}
@@ -238,6 +236,7 @@ const Index = () => {
           <RegisterForm onClose={() => setShowRegisterModal(false)} onRegisterSuccess={handleRegisterSuccess} />
         </Modal>
       )}
+      
     </div>
   );
 };

@@ -10,48 +10,27 @@ const LoginForm = ({ onClose, onLoginSuccess }) => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError(''); // Clear previous errors
+    setError('');
     try {
-      const res = await axios.post(
-        '/api/auth/login',
+      const res = await axios.post('http://localhost:5000/api/auth/login',
         { email, password },
         { withCredentials: true }
       );
-      const loggedInUserName = res.data.user.name; 
+      const loggedInUserName = res.data.user.name;
       if (res.status === 200) {
-        /*toast.success(
-          <div>
-            <strong>Welcome back!</strong>
-            <div>You've successfully logged in.</div>
-          </div>,
-          {
-            position: 'top-right',
-            autoClose: 3000,
-            pauseOnHover: true,
-            draggable: true,
-            theme: 'colored',
-          }
-        );*/
-
-        // Trigger parent update, passing the username
-        onLoginSuccess(loggedInUserName); // <--- Pass the extracted username here
-
-        // Close modal after short delay
-        setTimeout(() => {
-          onClose();
-        }, 1500);
+        onLoginSuccess(loggedInUserName);
       }
     } catch (err) {
-      console.error('Login error:', err.response?.data || err.message); // Log full error for debugging
-      setError(err.response?.data?.msg || 'Login failed. Please try again.'); // More user-friendly error
-      toast.error(`${err.response?.data?.msg || 'Login failed. Please check your credentials.'}`, {
-        position: 'top-right',
-        autoClose: 3000,
-        pauseOnHover: true,
-        draggable: true,
-        theme: 'colored',
-      });
-    }
+        console.error('Login error:', err.response?.data || err.message); 
+        setError(err.response?.data?.msg || 'Login failed. Please try again.'); 
+        toast.error(`${err.response?.data?.msg || 'Login failed. Please check your credentials.'}`, {
+          position: 'top-right',
+          autoClose: 3000,
+          pauseOnHover: true,
+          draggable: true,
+          theme: 'colored',
+        }); 
+      }
   };
 
   return (
@@ -63,7 +42,7 @@ const LoginForm = ({ onClose, onLoginSuccess }) => {
         <div className="flex items-center border rounded-lg px-3 py-2 shadow-sm">
           <FaEnvelope className="text-gray-400 mr-2" />
           <input
-            id="email" // Added id for better accessibility
+            id="email" 
             type="email"
             placeholder="you@example.com"
             className="w-full outline-none bg-transparent"
@@ -79,7 +58,7 @@ const LoginForm = ({ onClose, onLoginSuccess }) => {
         <div className="flex items-center border rounded-lg px-3 py-2 shadow-sm">
           <FaLock className="text-gray-400 mr-2" />
           <input
-            id="password" // Added id for better accessibility
+            id="password" 
             type="password"
             placeholder="••••••••"
             className="w-full outline-none bg-transparent"

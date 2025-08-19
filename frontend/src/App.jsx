@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { ToastContainer } from "react-toastify";
 import IndexPage from './pages/Index';
 import JoinACampaignPage from './pages/JoinACampaign';
 import About from './pages/About';
@@ -11,6 +12,7 @@ import OngoingCampaign from './pages/OngoingCampaign';
 const App = () => {
   
   return (
+    <>
     <Routes>
       <Route path="/" element={<IndexPage />} />
       <Route path="/joinacampaign" element={<JoinACampaignPage />} />
@@ -20,6 +22,8 @@ const App = () => {
       <Route path="/campaigns/create" element={<CreateCampaign />} />
       <Route path="/campaigns/ongoing" element={<OngoingCampaign />} />
     </Routes>
+    <ToastContainer />
+    </>
   );
 };
 
