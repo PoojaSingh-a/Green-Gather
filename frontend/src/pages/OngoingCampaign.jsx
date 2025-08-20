@@ -10,6 +10,8 @@ import { TbArrowsDiagonal } from "react-icons/tb";
 import backgroundVideo from "../assets/video/bckgVideo1.mp4";
 import axios from "axios";
 import Navbar from "../components/Navbar";
+import LoginForm from '../components/LoginForm';
+import Modal from "../components/Modal";
 import awarenessImg from "../assets/images/awareness.png";
 import cleanupImg from "../assets/images/cleanup.png";
 import recyclingImg from "../assets/images/recycle.png";
@@ -36,7 +38,7 @@ const OngoingCampaign = () => {
   const [filteredCampaigns, setFilteredCampaigns] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showLoginModal, setShowLoginModal] = useState(true);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const [locationFilter, setLocationFilter] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const categoryColors = {
@@ -231,6 +233,16 @@ const OngoingCampaign = () => {
           <a href="#" className="hover:underline">Privacy Policy</a>
         </div>
       </footer>
+      {
+        showLoginModal && (
+          <Modal onClose={() => setShowLoginModal(false)}>
+            <LoginForm onLoginSuccess={() => {
+              setShowLoginModal(false);
+              toast.success('Logged in — fields filled!');
+            }} />
+          </Modal>
+        )
+      }
     </>
   );
 };

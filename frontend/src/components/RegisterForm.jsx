@@ -189,7 +189,7 @@ const RegisterForm = ({ onClose }) => {
           />
         </div>
         <p id="password-strength" className={`text-sm mt-2 ${passwordStrength.colorClass}`} aria-live="polite">
-          <span className="font-medium">Strength:</span> {passwordStrength.label || '—'}
+          <span className="font-medium">Strength:</span> {passwordStrength.label || ''}
           {password && passwordStrength.suggestions?.length > 0 && (
             <span className="text-gray-600"> • Try {passwordStrength.suggestions.slice(0, 2).join(', ')}</span>
           )}
