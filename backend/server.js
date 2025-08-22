@@ -7,8 +7,9 @@ const campaignRoutes = require('./routes/campaignRoutes');
 require('dotenv').config();
 
 const app = express();
+
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: process.env.CLIENT_URL || 'http://localhost:5173',
   credentials: true
 }));
 
@@ -18,6 +19,12 @@ app.use(express.json());
 
 app.use('/api/auth', authRoutes); 
 app.use('/api/campaigns',campaignRoutes);
+
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+});
 
 mongoose.connect(process.env.MONGO_URI)
 .then(() => {

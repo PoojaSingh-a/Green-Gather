@@ -79,7 +79,7 @@ const CreateCampaign = () => {
     setShowFilledLoginWarning(false);
 
     try {
-      const res = await fetch('http://localhost:5000/api/campaigns/create', {
+      const res = await fetch('/api/campaigns/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

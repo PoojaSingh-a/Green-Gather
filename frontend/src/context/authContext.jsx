@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/auth/check-auth", { withCredentials: true });
+        const res = await axios.get("/api/auth/check-auth", { withCredentials: true });
         setIsLoggedIn(true);
         setUserName(res.data.name);
         setUserEmail(res.data.email);
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
   // Function to handle logout
   const logout = async () => {
     try {
-      await axios.post("http://localhost:5000/api/auth/logout", {}, { withCredentials: true });
+      await axios.post("/api/auth/logout", {}, { withCredentials: true });
       setIsLoggedIn(false);
       setUserName('');
       console.log("Logged out successfully!");
